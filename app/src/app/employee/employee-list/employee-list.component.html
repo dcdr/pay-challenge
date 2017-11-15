@@ -1,0 +1,11 @@
+<div>
+  <h1>Employees</h1>
+  <mz-card *ngFor="let employee of employees">
+    <mz-card-content>
+      <div class="row">
+        <div class="col s3"><span class="right">Name:</span></div>
+        <div class="col s9 employee-name">{{employee.fullname()}}</div>
+      </div>
+    </mz-card-content>
+  </mz-card>
+</div>
