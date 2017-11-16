@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [{
   path: '',
   children: []
-},
-{
-  path: 'employee',
-  component: EmployeeListComponent
+  // redirectTo: '/employees',
+  // pathMatch: 'full'
 }, {
   path: '**',
   redirectTo: ''
 }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(
+      routes,
+      { enableTracing: true } // <-- debugging purposes only
+    )
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

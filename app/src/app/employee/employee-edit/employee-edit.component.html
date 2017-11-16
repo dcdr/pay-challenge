@@ -1,0 +1,22 @@
+<h4>Employee Information</h4>
+<div class="row">
+  <form [formGroup]="form" novalidate class="col s12">
+    <div class="row">
+      <mz-input-container class="col s6">
+        <input mz-input mz-validation required formControlName="givenName" [label]="'Given name'" [validate]="true" [dataError]="'Given name is invalid'"
+          [dataSuccess]="'Given name is valid'" id="givenName-input" placeholder="Enter the employee's given name" length="150"
+          type="text">
+      </mz-input-container>
+    </div>
+    <div class="row">
+      <mz-input-container class="col s6">
+        <input mz-input mz-validation required formControlName="familyName" [label]="'Family name'" [validate]="true" [dataError]="'Family name is invalid'"
+          [dataSuccess]="'Family name is valid'" id="familyName-input" placeholder="Enter the employee's family name" length="150"
+          type="text">
+      </mz-input-container>
+    </div>
+  </form>
+</div>
+<div>
+  <button (click)="onSave()">Save</button>
+</div>
