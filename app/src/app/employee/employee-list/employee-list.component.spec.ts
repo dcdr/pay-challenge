@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { UUID } from 'angular2-uuid';
@@ -14,15 +15,16 @@ describe('EmployeeListComponent', () => {
   let apiSpy: jasmine.Spy;
 
   let employees = [
-    new Employee(new UUID(), 'Ben', 'Bernanke'),
-    new Employee(new UUID(), 'Jerome', 'Powell'),
-    new Employee(new UUID(), 'Janet', 'Yellon')
+    new Employee(UUID.UUID(), 'Ben', 'Bernanke'),
+    new Employee(UUID.UUID(), 'Jerome', 'Powell'),
+    new Employee(UUID.UUID(), 'Janet', 'Yellon')
   ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        EmployeeModule
+        EmployeeModule,
+        RouterTestingModule
       ],
       providers: [
         PaylocityApi
@@ -37,7 +39,6 @@ describe('EmployeeListComponent', () => {
     let api = fixture.debugElement.injector.get(PaylocityApi);
     apiSpy = spyOn(api, 'getEmployees')
       .and.returnValue(Observable.from(employees));
-    
     fixture.detectChanges();
   });
 
@@ -56,7 +57,7 @@ describe('EmployeeListComponent', () => {
     });
   });
 
-  it ('should retrieve current employees from service', () => {
+  it('should retrieve current employees from service', () => {
     expect(apiSpy).toHaveBeenCalled();
   });
 });

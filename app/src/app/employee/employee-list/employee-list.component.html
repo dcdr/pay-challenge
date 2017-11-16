@@ -1,6 +1,7 @@
 <div>
   <h1>Employees</h1>
-  <mz-card *ngFor="let employee of employees">
+  <a routerLink="/employee/new" class="btn-floating btn waves-effect waves-light"><i mz-icon-mdi [icon]="'plus'"></i></a>
+  <mz-card *ngFor="let employee of employees" (click)="onClick(employee)">
     <mz-card-content>
       <div class="row">
         <div class="col s3"><span class="right">Name:</span></div>

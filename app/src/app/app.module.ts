@@ -16,8 +16,8 @@ import { EmployeeModule } from './employee/employee.module';
   imports: [
     BrowserModule,
     MaterializeModule.forRoot(),
+    EmployeeModule,
     AppRoutingModule,
-    EmployeeModule
   ],
   providers: [
     PaylocityApi
