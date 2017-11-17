@@ -5,6 +5,11 @@ Clone the repository
 $ npm install -g angular-cli@1.3.2
 $ npm install
 
+Use node.js v8.4.0 or later
+Clone the repository
+$ npm install -g angular-cli@1.3.2
+$ npm install
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
 ## Development server
