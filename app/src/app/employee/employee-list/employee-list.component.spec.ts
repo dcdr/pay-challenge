@@ -15,9 +15,9 @@ describe('EmployeeListComponent', () => {
   let apiSpy: jasmine.Spy;
 
   let employees = [
-    new Employee(UUID.UUID(), 'Ben', 'Bernanke'),
-    new Employee(UUID.UUID(), 'Jerome', 'Powell'),
-    new Employee(UUID.UUID(), 'Janet', 'Yellon')
+    new Employee(UUID.UUID(), 'Ben', 'Bernanke', []),
+    new Employee(UUID.UUID(), 'Jerome', 'Powell', []),
+    new Employee(UUID.UUID(), 'Janet', 'Yellon', [])
   ];
 
   beforeEach(async(() => {
