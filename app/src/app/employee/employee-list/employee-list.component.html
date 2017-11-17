@@ -1,14 +1,22 @@
 <div>
   <h1>Employees</h1>
   <a routerLink="/employee/new" class="btn-floating btn waves-effect waves-light"><i mz-icon-mdi [icon]="'plus'"></i></a>
-  <mz-card *ngFor="let employee of employees" (click)="onClick(employee)">
-    <mz-card-content>
-      <div class="row">
-        <div class="col s3"><span class="right">Name:</span></div>
-        <div class="col s9 employee-name">{{employee.fullname()}}</div>
-        <div class="col s3"><span class="right">Dependents:</span></div>
-        <div class="col s9 employee-dependent-count">{{employee.dependentCount}}</div>
+  <mz-card *ngFor="let employee of employees">
+    <mz-card-content class="row">
+      <div class="col s3"><span class="right">Name:</span></div>
+      <div class="col s9 employee-name">{{employee.fullname()}}</div>
+      <div class="col s3"><span class="right">Dependents:</span></div>
+      <div class="col s9 employee-dependent-count">
+        <ng-template ngFor let-dependent [ngForOf]="employee.dependents">
+          <span>{{dependent.fullname()}}</span><br />
+        </ng-template>
       </div>
+      <div class="col s3"><span class="right">Paycheck:</span></div>
+      <div class="col s9 employee-dependent-count">{{employee.paycheck.total}}</div>
     </mz-card-content>
+    <mz-card-action>
+        <a (click)="onClick(employee)" class="waves-effect waves-teal btn-flat"><i mz-icon-mdi [icon]="'pencil'"></i></a>
+        <a (click)="onDelete(employee)" class="waves-effect waves-teal btn-flat"><i mz-icon-mdi [icon]="'delete-forever'"></i></a>
+      </mz-card-action>
   </mz-card>
 </div>

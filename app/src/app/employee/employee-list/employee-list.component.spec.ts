@@ -9,16 +9,14 @@ import { EmployeeModule } from '../employee.module';
 import { EmployeeListComponent } from './employee-list.component';
 import { Employee } from '../../models';
 
+import { dataset } from '../../../testing/dataset';
+
 describe('EmployeeListComponent', () => {
   let component: EmployeeListComponent;
   let fixture: ComponentFixture<EmployeeListComponent>;
   let apiSpy: jasmine.Spy;
 
-  let employees = [
-    new Employee(UUID.UUID(), 'Ben', 'Bernanke', []),
-    new Employee(UUID.UUID(), 'Jerome', 'Powell', []),
-    new Employee(UUID.UUID(), 'Janet', 'Yellon', [])
-  ];
+  let employees: Employee[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +35,13 @@ describe('EmployeeListComponent', () => {
     fixture = TestBed.createComponent(EmployeeListComponent);
     component = fixture.componentInstance;
     let api = fixture.debugElement.injector.get(PaylocityApi);
+    employees = dataset.employees.map(e => {
+      let employee = Employee.fromJson(e);
+      api.getPayCheck(employee).subscribe(paycheck => {
+        employee.paycheck = paycheck;
+      });
+      return employee;
+    });
     apiSpy = spyOn(api, 'getEmployees')
       .and.returnValue(Observable.from(employees));
     fixture.detectChanges();
