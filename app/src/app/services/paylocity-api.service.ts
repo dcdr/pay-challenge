@@ -6,17 +6,19 @@ import { Employee } from '../models';
 // with an actual implementation of the API when its shape is more clear.
 export class PaylocityApi {
 
-  // Simulate the retrieval of data over-the-wire and converting it into
-  // an Employee domain model. 
+  // Simulate the retrieval of all employees. The over-the-wire representation
+  // is often a summary (e.g. dependent count vs. full dependent info).
   // GET /api/v1/employees
   // Query parameters might come later.
   getEmployees(): Observable<Employee> {
-    let employeeData = this.getData().employees;
+    const data = this.getData();
     let employees = new Array<Employee>();
 
     return new Observable<Employee>(subscribe => {
-      employeeData.forEach(data => {
-        let employee = new Employee(data.id, data.givenName, data.familyName);
+      data.employees.forEach(emp => {
+        let employee = new Employee(emp.id, emp.givenName, emp.familyName, []);
+        let dependents = data.dependents.filter(d => d.employeeId === employee.id);
+        employee.dependentCount = dependents.length;
         subscribe.next(employee);
       })
       subscribe.complete();
@@ -26,9 +28,10 @@ export class PaylocityApi {
   // Simulate retrieval of a specific employee record.
   // GET /api/v2/employee/{id}
   getEmployee(id: UUID): Observable<Employee> {
-    let employeeData = this.getData().employees;
-    let data = employeeData.find(e => e.id === id);
-    let employee = new Employee(data.id, data.givenName, data.familyName);
+    const data = this.getData();
+    let empData = data.employees.find(e => e.id === id);
+    let dependents = data.dependents.filter(d => d.employeeId === empData.id);
+    let employee = new Employee(empData.id, empData.givenName, empData.familyName, dependents);
     return Observable.of(employee);
   }
 
@@ -48,6 +51,20 @@ export class PaylocityApi {
         data.employees[index] = employee;
       }
     }
+    if (employee.dependents && employee.dependents.length > 0) {
+      employee.dependents.forEach(dep => {
+        if (!dep.id) {
+          dep.id = UUID.UUID();
+          data.dependents.push(dep);
+        }
+        else {
+          let index = data.dependents.findIndex(d => d.id === dep.id);
+          if (index !== -1) {
+            data.dependents[index] = dep;
+          }
+        }
+      });
+    }
     this.saveData(data);
   }
 
@@ -65,11 +82,23 @@ export class PaylocityApi {
   }
 
   private initialData() {
+    const bernakeId = UUID.UUID();
+    const powellId = UUID.UUID();
+    const yellonId = UUID.UUID();
     return {
       employees: [ 
-        { id: UUID.UUID(), givenName: 'Ben', familyName: 'Bernanke' },
-        { id: UUID.UUID(), givenName: 'Jerome', familyName: 'Powell' },
-        { id: UUID.UUID(), givenName: 'Janet', familyName: 'Yellon' }
+        { id: bernakeId, givenName: 'Ben', familyName: 'Bernanke' },
+        { id: powellId, givenName: 'Jerome', familyName: 'Powell' },
+        { id: yellonId, givenName: 'Janet', familyName: 'Yellon' }
+      ],
+      dependents: [
+        { id: UUID.UUID(), employeeId: yellonId, givenName: 'George', familyName: 'Akerlof' },
+        { id: UUID.UUID(), employeeId: yellonId, givenName: 'Robert', familyName: 'Akerlof' },
+        { id: UUID.UUID(), employeeId: bernakeId, givenName: 'Anna', familyName: 'Friedmann' },
+        { id: UUID.UUID(), employeeId: powellId, givenName: 'Elissa', familyName: 'Leonard' },
+        { id: UUID.UUID(), employeeId: powellId, givenName: 'Lucy', familyName: 'Powell' },
+        { id: UUID.UUID(), employeeId: powellId, givenName: 'Susie', familyName: 'Powell' },
+        { id: UUID.UUID(), employeeId: powellId, givenName: 'Sam', familyName: 'Powell' },
       ]
     };
   }

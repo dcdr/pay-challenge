@@ -1,0 +1,42 @@
+<h5>Dependents</h5>
+<a (click)="onAddDependent()" class="btn-floating btn waves-effect waves-light"><i mz-icon-mdi [icon]="'plus'"></i></a>
+<div class="row">
+  <div class="col s6">
+    <table>
+      <thead>
+        <th>Family Name</th>
+        <th>Given Name</th>
+      </thead>
+      <tr *ngFor="let dependent of employee.dependents" (click)="onSelected(dependent)">
+        <td>{{dependent.familyName}}</td>
+        <td>{{dependent.givenName}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<mz-modal #dependentForm [fixedFooter]="true" [bottomSheet]="true" [options]="modalOptions">
+  <mz-modal-header>
+    Dependent Information
+  </mz-modal-header>
+  <mz-modal-content>
+    <form [formGroup]="form" novalidate class="col s12">
+      <div class="row">
+        <mz-input-container class="col s6">
+          <input mz-input mz-validation required formControlName="givenNameDep" [label]="'Given name'" [validate]="true" [dataError]="'Given name is invalid'"
+            [dataSuccess]="'Given name is valid'" id="givenName-input-dep" placeholder="Enter the employee's given name" length="150"
+            type="text">
+        </mz-input-container>
+      </div>
+      <div class="row">
+        <mz-input-container class="col s6">
+          <input mz-input mz-validation required formControlName="familyNameDep" [label]="'Family name'" [validate]="true" [dataError]="'Family name is invalid'"
+            [dataSuccess]="'Family name is valid'" id="familyName-input-dep" placeholder="Enter the employee's family name" length="150"
+            type="text">
+        </mz-input-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Save</button>
+  </mz-modal-footer>
+</mz-modal>

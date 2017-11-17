@@ -17,6 +17,7 @@
     </div>
   </form>
 </div>
-<div>
+<app-dependent-list [employee]="item" (editingDependent)="onEditingDependent($event)"></app-dependent-list>
+<div *ngIf="!isEditingDependent">
   <button (click)="onSave()">Save</button>
 </div>

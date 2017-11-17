@@ -8,6 +8,7 @@ import { UUID } from 'angular2-uuid';
 import { RouterStub, ActivatedRouteStub } from '../../../testing/router-stubs';
 import { PaylocityApi } from '../../services';
 
+import { EmployeeModule } from '../employee.module';
 import { EmployeeEditComponent } from './employee-edit.component';
 import { Employee } from '../../models';
 
@@ -21,10 +22,8 @@ describe('EmployeeEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MaterializeModule
-      ],
-      declarations: [
-        EmployeeEditComponent
+        MaterializeModule,
+        EmployeeModule
       ],
       providers: [
         PaylocityApi,
@@ -41,7 +40,7 @@ describe('EmployeeEditComponent', () => {
     fixture = TestBed.createComponent(EmployeeEditComponent);
     component = fixture.componentInstance;
     let api = fixture.debugElement.injector.get(PaylocityApi);
-    let employee = new Employee(UUID.UUID(), 'This', 'Person');
+    let employee = new Employee(UUID.UUID(), 'This', 'Person', []);
     apiSpy = spyOn(api, 'getEmployee')
       .and.returnValue(Observable.of(employee));
 

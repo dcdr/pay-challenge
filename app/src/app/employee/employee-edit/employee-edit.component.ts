@@ -14,6 +14,7 @@ import { Employee } from '../../models';
 export class EmployeeEditComponent implements OnInit {
   item: Employee;
   form: FormGroup;
+  private isEditingDependent = false;
 
   constructor(private api: PaylocityApi, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
@@ -25,13 +26,17 @@ export class EmployeeEditComponent implements OnInit {
         });
       }
       else {
-        this.item = new Employee(null, "", "");
+        this.item = new Employee(null, "", "", []);
       }
       this.form = this.formBuilder.group({
         givenName: this.item.givenName,
         familyName: this.item.familyName
       });
     })
+  }
+
+  onEditingDependent(isEditingDependent) {
+    this.isEditingDependent = isEditingDependent;
   }
 
   onSave() {
