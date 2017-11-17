@@ -26,4 +26,11 @@ export class EmployeeListComponent implements OnInit {
   onClick(employee: Employee) {
     this.router.navigate(['employee', employee.id]);
   }
+
+  onDelete(employee: Employee) {
+    this.api.removeEmployee(employee);
+    this.api.getEmployees().toArray().subscribe(all => { 
+      this.employees = all; 
+    }); 
+  }
 }

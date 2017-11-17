@@ -40,7 +40,7 @@ export class DependentListComponent implements OnInit {
   }
 
   onAddDependent() {
-    this.item = new Dependent(null, this.employee.id, "", "");
+    this.item = new Dependent(null, "", "");
     this.edit();
   }
 
@@ -63,7 +63,7 @@ export class DependentListComponent implements OnInit {
     this.item.givenName = this.form.value.givenNameDep as string;
     this.item.familyName = this.form.value.familyNameDep as string;
     if (!this.item.id) {
-      this.employee.addDependent(new Dependent(null, this.employee.id, this.item.givenName, this.item.familyName));
+      this.employee.addDependent(this.item);
     }
     this.item = null;
     this.editingDependent.emit(false);
