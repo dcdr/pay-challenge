@@ -8,6 +8,8 @@ import { EmployeeModule } from '../employee.module';
 import { Employee } from '../../models';
 import { DependentListComponent } from './dependent-list.component';
 
+import { dataset } from '../../../testing/dataset';
+
 describe('DependentListComponent', () => {
   let component: DependentListComponent;
   let fixture: ComponentFixture<DependentListComponent>;
@@ -28,7 +30,7 @@ describe('DependentListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DependentListComponent);
     component = fixture.componentInstance;
-    component.employee = new Employee(UUID.UUID(), 'This', 'Person', []);
+    component.employee = Employee.fromJson(dataset.employees[0]);
     fixture.detectChanges();
   });
 
