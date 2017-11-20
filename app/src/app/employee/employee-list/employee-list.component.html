@@ -7,6 +7,7 @@
       <div class="col s9 employee-name">{{employee.fullname()}}</div>
       <div class="col s3"><span class="right">Dependents:</span></div>
       <div class="col s9 employee-dependent-count">
+        <span *ngIf="!hasDependents(employee)">none</span>
         <ng-template ngFor let-dependent [ngForOf]="employee.dependents">
           <span>{{dependent.fullname()}}</span><br />
         </ng-template>

@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 
 import { RouterStub, ActivatedRouteStub } from '../../../testing/router-stubs';
-import { PaylocityApi } from '../../services';
+import { PChallengeApi } from '../../services';
 
 import { EmployeeModule } from '../employee.module';
 import { EmployeeEditComponent } from './employee-edit.component';
@@ -26,7 +26,7 @@ describe('EmployeeEditComponent', () => {
         EmployeeModule
       ],
       providers: [
-        PaylocityApi,
+        PChallengeApi,
         { provide: Router, useClass: RouterStub },
         { provide: ActivatedRoute, useValue: activatedRoute }
       ]
@@ -39,7 +39,7 @@ describe('EmployeeEditComponent', () => {
     
     fixture = TestBed.createComponent(EmployeeEditComponent);
     component = fixture.componentInstance;
-    let api = fixture.debugElement.injector.get(PaylocityApi);
+    let api = fixture.debugElement.injector.get(PChallengeApi);
     let employee = new Employee(UUID.UUID(), 'This', 'Person', []);
     apiSpy = spyOn(api, 'getEmployee')
       .and.returnValue(Observable.of(employee));

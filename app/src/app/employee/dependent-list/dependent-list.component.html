@@ -1,19 +1,22 @@
-<h2>Dependents</h2>
-<a (click)="onAddDependent()" class="btn-floating btn waves-effect waves-light"><i mz-icon-mdi [icon]="'plus'"></i></a>
-<div class="row">
-  <div class="col s6">
-    <table>
-      <thead>
-        <th>Family Name</th>
-        <th>Given Name</th>
-      </thead>
-      <tr *ngFor="let dependent of employee.dependents" (click)="onSelected(dependent)">
-        <td>{{dependent.familyName}}</td>
-        <td>{{dependent.givenName}}</td>
-      </tr>
-    </table>
+<div *ngIf="employee">
+  <h2>Dependents</h2>
+  <a (click)="onAddDependent()" class="btn-floating btn waves-effect waves-light"><i mz-icon-mdi [icon]="'plus'"></i></a>
+  <div class="row">
+    <div class="col s6">
+      <table>
+        <thead>
+          <th>Family Name</th>
+          <th>Given Name</th>
+        </thead>
+        <tr *ngFor="let dependent of employee.dependents; index as i" (click)="onSelected(i)">
+          <td>{{dependent.familyName}}</td>
+          <td>{{dependent.givenName}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
+
 <mz-modal #dependentForm [fixedFooter]="true" [bottomSheet]="true" [options]="modalOptions">
   <mz-modal-header>
     Dependent Information

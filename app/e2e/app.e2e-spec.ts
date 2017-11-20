@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('paylocity-challenge App', () => {
+describe('p-challenge App', () => {
   let page: AppPage;
 
   beforeEach(() => {
