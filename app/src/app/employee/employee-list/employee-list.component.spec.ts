@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { UUID } from 'angular2-uuid';
@@ -22,7 +23,8 @@ describe('EmployeeListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         EmployeeModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientModule
       ],
       providers: [
         PChallengeApi

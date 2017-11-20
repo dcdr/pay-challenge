@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterializeModule } from 'ng2-materialize';
 import { Observable } from 'rxjs';
@@ -23,7 +24,8 @@ describe('EmployeeEditComponent', () => {
       imports: [
         ReactiveFormsModule,
         MaterializeModule,
-        EmployeeModule
+        EmployeeModule,
+        HttpClientModule
       ],
       providers: [
         PChallengeApi,
