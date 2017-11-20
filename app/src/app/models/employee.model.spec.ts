@@ -9,7 +9,7 @@ describe('Employee', () => {
   });
 
   it('should add dependent and update count', () => {
-    let newDependent = new Dependent(null, 'susy', 'subject');
+    let newDependent = new Dependent('susy', 'subject');
     const originalDependentCount = employee.dependents.length;
     employee.addDependent(newDependent);
 
