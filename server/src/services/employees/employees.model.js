@@ -1,12 +1,24 @@
-const NeDB = require('nedb');
-const path = require('path');
+class Person {
+  constructor(givenName, familyName) {
+    this.givenName = givenName;
+    this.familyName = familyName;
+  }
+}
 
-module.exports = function (app) {
-  const dbPath = app.get('nedb');
-  const Model = new NeDB({
-    filename: path.join(dbPath, 'payolicyChallenge.db'),
-    autoload: true
-  });
+class Dependent extends Person {
+  constructor(givenName, familyName) {
+    super(givenName, familyName);
+  }  
+}
 
-  return Model;
+class Employee extends Person {
+  constructor(givenName, familyName, dependents) {
+    super(givenName, familyName);
+    this.dependents = dependents;
+  }
+}
+
+module.exports = {
+  Dependent,
+  Employee
 };

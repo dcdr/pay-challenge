@@ -3,14 +3,14 @@ const favicon = require('serve-favicon');
 const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
-const NeDB = require('nedb');
+//const NeDB = require('nedb');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 const rest = require('@feathersjs/express/rest');
 const socketio = require('@feathersjs/socketio');
-const db = require('feathers-nedb');
+//const db = require('feathers-nedb');
 
 const handler = require('@feathersjs/errors/handler');
 const notFound = require('@feathersjs/errors/not-found');
