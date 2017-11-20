@@ -1,3 +1,6 @@
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs';
 import { Employee, Person, Paycheck, Dependent } from '../models';
@@ -5,30 +8,36 @@ import { dataset } from '../../testing/dataset';
 
 // This class is used to explore the needs of the API. It will be replaced
 // with an actual implementation of the API when its shape is more clear.
-export class PaylocityApi {
+@Injectable()
+export class PChallengeApi {
+  constructor(private http: HttpClient) {}
 
-  // Simulate the retrieval of all employees. The over-the-wire representation
-  // is often a summary (e.g. dependent count vs. full dependent info).
-  // GET /api/v1/employees
+  // Retrieval of all employees.
+  // GET /employees
   // Query parameters might come later.
   getEmployees(): Observable<Employee> {
-    const data = this.getData();
-    let employees = data.employees.map(emp => {
-      let employee = Employee.fromJson(emp);
-      employee.paycheck = this.paycheck(employee);
-      return employee;
+    return new Observable<Employee>(subscriber => {
+      let headers = new HttpHeaders({'Cache-Control': 'no-cache'});
+      this.http.get('http://localhost:3030/api/v1/employees', { headers }).subscribe((response: any) => {
+        response.data.forEach(emp => {
+          let employee = Employee.fromJson(emp);
+          employee.paycheck = this.paycheck(employee);
+          subscriber.next(employee);
+        });
+        subscriber.complete();
+      });
     });
-    return Observable.from(employees);
   }
 
   // Simulate retrieval of a specific employee record.
   // GET /api/v1/employee/{id}
   getEmployee(id: UUID): Observable<Employee> {
-    const data = this.getData();
-    let emp = data.employees.find(e => e.id === id);
-    let employee = Employee.fromJson(emp);
-    employee.paycheck = this.paycheck(employee);
-    return Observable.of(employee);
+    return new Observable<Employee>(subscriber => {
+      this.http.get(`http://localhost:3030/api/v1/employees/${id}`).subscribe((response: any) => {
+        subscriber.next(Employee.fromJson(response));
+        subscriber.complete();
+      });
+    });
   }
 
   // Simulate saving an employee record. 
@@ -36,36 +45,21 @@ export class PaylocityApi {
   // PUT /api/v1/employee/{id} to update the record.
   // Might require semantics where the id of a newly created employee is returned.
   saveEmployee(employee: Employee) {
-    let data = this.getData();
-    if (!employee.id) {
-      employee.id = UUID.UUID();
-      data.employees.push(employee);
-    }
-    else {
-      let index = data.employees.findIndex(e => e.id === employee.id);
-      if (index !== -1) {
-        data.employees[index] = employee;
-      }
-    }
-    if (employee.dependents && employee.dependents.length > 0) {
-      employee.dependents.forEach(dep => {
-        if (!dep.id) {
-          dep.id = UUID.UUID();
-        }
+    if (!employee._id) {
+      this.http.post('http://localhost:3030/api/v1/employees', employee).subscribe(response => {
       });
     }
-    this.saveData(data);
+    else {
+      this.http.put(`http://localhost:3030/api/v1/employees/${employee._id}`, employee).subscribe(response => {
+      });
+    }
   }
 
   // Simulate deleting an employee from the DB.
   // DELETE /api/v1/employee/{id}
   removeEmployee(employee: Employee) {
-    let data = this.getData();
-    let index = data.employees.findIndex(e => e.id === employee.id);
-    if (index !== -1) {
-      data.employees.splice(index, 1);
-      this.saveData(data);
-    }
+    this.http.delete(`http://localhost:3030/api/v1/employees/${employee._id}`).subscribe(response => {
+    });
   }
 
   // Simulate retrieving an employee's paycheck.
@@ -98,7 +92,7 @@ export class PaylocityApi {
   }
 
   private getData() {
-    let json = JSON.parse(localStorage.getItem('paylocity-challenge'));
+    let json = JSON.parse(localStorage.getItem('p-challenge'));
     if (!json) {
       json = this.initialData();
       this.saveData(json);
@@ -107,7 +101,7 @@ export class PaylocityApi {
   }
 
   private saveData(json: any) {
-    localStorage.setItem('paylocity-challenge', JSON.stringify(json));
+    localStorage.setItem('p-challenge', JSON.stringify(json));
   }
 
   private initialData() {

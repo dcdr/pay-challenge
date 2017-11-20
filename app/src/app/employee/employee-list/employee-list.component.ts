@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MaterializeModule } from 'ng2-materialize';
 
-import { PaylocityApi } from '../../services';
+import { PChallengeApi } from '../../services';
 
 import { Employee } from '../../models';
 
@@ -14,7 +14,7 @@ import { Employee } from '../../models';
 export class EmployeeListComponent implements OnInit {
   employees: Array<Employee>;
 
-  constructor(private api: PaylocityApi, private router: Router) {
+  constructor(private api: PChallengeApi, private router: Router) {
   }
 
   ngOnInit() {
@@ -23,8 +23,12 @@ export class EmployeeListComponent implements OnInit {
     }); 
   }
 
+  hasDependents(employee: Employee) {
+    return employee.dependents && employee.dependents.length > 0;
+  }
+
   onClick(employee: Employee) {
-    this.router.navigate(['employee', employee.id]);
+    this.router.navigate(['employee', employee._id]);
   }
 
   onDelete(employee: Employee) {
