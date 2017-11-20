@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { UUID } from 'angular2-uuid';
 
-import { PaylocityApi } from '../../services';
+import { PChallengeApi } from '../../services';
 import { EmployeeModule } from '../employee.module';
 import { EmployeeListComponent } from './employee-list.component';
 import { Employee } from '../../models';
@@ -25,7 +25,7 @@ describe('EmployeeListComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        PaylocityApi
+        PChallengeApi
       ]
     })
     .compileComponents();
@@ -34,7 +34,7 @@ describe('EmployeeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EmployeeListComponent);
     component = fixture.componentInstance;
-    let api = fixture.debugElement.injector.get(PaylocityApi);
+    let api = fixture.debugElement.injector.get(PChallengeApi);
     employees = dataset.employees.map(e => {
       let employee = Employee.fromJson(e);
       api.getPayCheck(employee).subscribe(paycheck => {

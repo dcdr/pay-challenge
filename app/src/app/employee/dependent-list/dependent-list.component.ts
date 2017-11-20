@@ -16,6 +16,7 @@ export class DependentListComponent implements OnInit {
   @ViewChild('dependentForm') dependentForm: MzModalComponent;
 
   item: Dependent;
+  index: number;
   form: FormGroup;
   modalOptions: Materialize.ModalOptions = {
     dismissible: false, // Modal can be dismissed by clicking outside of the modal
@@ -33,6 +34,8 @@ export class DependentListComponent implements OnInit {
   constructor(private router: Router,  private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.index = -1;
+    this.item = null;
     this.form = this.formBuilder.group({
       givenNameDep: '',
       familyNameDep: ''
@@ -40,16 +43,17 @@ export class DependentListComponent implements OnInit {
   }
 
   onAddDependent() {
-    this.item = new Dependent(null, "", "");
+    this.item = new Dependent("", "");
     this.edit();
   }
 
-  onSelected(dependent: Dependent) {
-    this.item = dependent;
+  onSelected(index: number) {
+    this.index = index;
+    this.item = this.employee.dependents[index];
     this.edit();
   }
 
-  edit() {
+  private edit() {
     this.form = this.formBuilder.group({
       givenNameDep: this.item.givenName,
       familyNameDep: this.item.familyName
@@ -62,9 +66,13 @@ export class DependentListComponent implements OnInit {
     this.dependentForm.close();
     this.item.givenName = this.form.value.givenNameDep as string;
     this.item.familyName = this.form.value.familyNameDep as string;
-    if (!this.item.id) {
+    if (this.index === -1) {
       this.employee.addDependent(this.item);
     }
+    else {
+      this.employee.dependents[this.index] = this.item;
+    }
+    this.index = -1;
     this.item = null;
     this.editingDependent.emit(false);
   }

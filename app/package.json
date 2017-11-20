@@ -1,5 +1,5 @@
 {
-  "name": "paylocity-test",
+  "name": "p-challenge",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "@feathersjs/client": "^3.1.0",
     "angular2-uuid": "^1.1.1",
     "core-js": "^2.4.1",
     "materialize-css": "^0.100.2",

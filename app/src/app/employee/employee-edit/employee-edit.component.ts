@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
-import { PaylocityApi } from '../../services';
+import { PChallengeApi } from '../../services';
 
 import { Employee } from '../../models';
 
@@ -16,22 +16,22 @@ export class EmployeeEditComponent implements OnInit {
   form: FormGroup;
   private isEditingDependent = false;
 
-  constructor(private api: PaylocityApi, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
+  constructor(private api: PChallengeApi, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    this.form = formBuilder.group({familyName: '', givenName: ''})
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (!!params.id) {
         this.api.getEmployee(params.id).subscribe(employee => {
           this.item = employee;
+          this.buildForm();
         });
       }
       else {
         this.item = new Employee(null, "", "", []);
+        this.buildForm();
       }
-      this.form = this.formBuilder.group({
-        givenName: this.item.givenName,
-        familyName: this.item.familyName
-      });
     })
   }
 
@@ -44,5 +44,12 @@ export class EmployeeEditComponent implements OnInit {
     this.item.familyName = this.form.value.familyName as string;
     this.api.saveEmployee(this.item);
     this.router.navigate(['employees']);
+  }
+
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      givenName: this.item.givenName,
+      familyName: this.item.familyName
+    });
   }
 }

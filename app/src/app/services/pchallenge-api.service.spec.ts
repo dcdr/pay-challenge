@@ -1,11 +1,11 @@
-import { PaylocityApi } from './paylocity-api.service';
+import { PChallengeApi } from './pchallenge-api.service';
 import { Employee, Dependent, Paycheck } from '../models';
 
-describe('Paylocity Payroll', () => {
-  let api: PaylocityApi;
+describe('Payroll', () => {
+  let api: PChallengeApi;
 
   beforeAll(()=> {
-    api = new PaylocityApi();
+    api = new PChallengeApi();
   });
 
   it('should pay George Jetson $1961.54 when having no dependents', () => {
