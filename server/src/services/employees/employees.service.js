@@ -1,17 +1,17 @@
 // Initializes the `users` service on path `/users`
 const createService = require('feathers-nedb');
-const createModel = require('./employees.model');
+const createStore = require('./employees.store');
 const hooks = require('./employees.hooks');
 // const filters = require('./employees.filters');
 
 module.exports = function () {
   const app = this;
-  const Model = createModel(app);
+  const store = createStore(app);
   const paginate = app.get('paginate');
 
   const options = {
     name: 'employees',
-    Model,
+    Model: store,
     paginate
   };
 
@@ -23,15 +23,13 @@ module.exports = function () {
 
   service.hooks(hooks);
 
-  if (service.filter) {
-    service.filter(filters);
-  }
+  // if (service.filter) {
+  //   service.filter(filters);
+  // }
 
   // Seed the DB
   service.find().then(existing => {
-    console.log('existing: ', existing);
     if (!existing || existing.data.length ===0) {
-      console.log('seeding db');
       Promise.all([
         service.create({
           givenName: 'Ben',
